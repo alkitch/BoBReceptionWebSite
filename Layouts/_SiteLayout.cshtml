@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>@Page.Title</title>
+        <link href="~/Content/Site.css" rel="stylesheet" />
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <script src="~/Scripts/modernizr-2.6.2.js"></script>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    </head>
+    <body oncontextmenu="return false;">
+        <div id="page" class="group">
+           
+            <header>
+                <p class="subtitle">RAF Biggin Hill</p>
+                <p class="title"><span class="titlered">Battle</span><span class="titlewhite"> of </span><span class="titleblue">Britain</span> Reception 2016</p>
+                <p><b>Saturday 10th September 2016 - 17:30 hrs</b></p>
+                <p>RAF St.Georges Chapel - RAF Biggin Hill</p>
+                <p>Main Road, Biggin Hill, Kent. TN16 3EJ</p>
+            
+                           
+             </header>  
+            <section><img src="~/images/bob13crest.png" alt="Crest" /></section>
+            
+            <div style="clear:both"></div>
+      
+            <nav>
+                    <ul>
+                        @foreach (var contentPage in App.ContentPages) {
+                            if (contentPage.Title == Page.Title) {
+                                <li><a href="~/ContentPage/@contentPage.Id" title="@contentPage.Header" class="current">@contentPage.Header</a></li>
+                            } else {
+                                <li><a href="~/ContentPage/@contentPage.Id" title="@contentPage.Header">@contentPage.Header</a></li>
+                            }
+                        }
+                    </ul>
+                </nav>
+            
+            <div class="pagebody">   
+                @RenderBody()
+            </div>
+        </div>
+    </body>
+</html>

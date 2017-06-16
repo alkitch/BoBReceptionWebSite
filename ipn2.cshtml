@@ -1,0 +1,147 @@
+﻿
+@using System.Text;
+@using System.Collections.Generic;
+@using System.Collections.Specialized;
+
+@{
+
+    string strSandbox = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+    string strLive = "https://www.paypal.com/cgi-bin/webscr";
+    HttpWebRequest req = (HttpWebRequest)WebRequest.Create(strLive);
+    //Set values for the request back
+    req.Method = "POST";
+    req.ContentType = "application/x-www-form-urlencoded";
+    byte[] param = Request.BinaryRead(HttpContext.Current.Request.ContentLength);
+    string strRequest = Encoding.ASCII.GetString(param);
+    string strResponse_copy = strRequest;  //Save a copy of the initial info sent by PayPal
+    strRequest += "&cmd=_notify-validate";
+    req.ContentLength = strRequest.Length;
+
+    //for proxy
+    //WebProxy proxy = new WebProxy(new Uri("http://url:port#"));
+    //req.Proxy = proxy;
+    //Send the request to PayPal and get the response
+    StreamWriter streamOut = new StreamWriter(req.GetRequestStream(), System.Text.Encoding.ASCII);
+    streamOut.Write(strRequest);
+    streamOut.Close();
+    StreamReader streamIn = new StreamReader(req.GetResponse().GetResponseStream());
+    string strResponse = streamIn.ReadToEnd();
+    streamIn.Close();   
+
+    var db = Database.Open("Personal Site");
+
+    NameValueCollection these_argies = HttpUtility.ParseQueryString(strResponse_copy);
+    string user_email = these_argies["payer_email"];
+    string pay_stat = these_argies["payment_status"]; 
+    string receiver_email = these_argies["receiver_email"];
+    var custom = these_argies["custom"];
+    var txn_id =  these_argies["txn_id"];
+   
+    var payment_amount = these_argies["mc_gross"];
+    var payment_currency = these_argies["mc_currency"];
+    var quantity = these_argies["quantity"]; 
+    bool sentEmail = false;
+    string emailException = "";
+
+
+
+
+    if (strResponse == "VERIFIED")
+    {
+
+
+            if( pay_stat.Equals("Completed") == true )
+            {
+
+                if( receiver_email.Equals("2427@aircadets.org") == true ){
+                
+
+                         var selectQuery = "SELECT BofBSurname,BofBFirstName,BofBSalutation,BofBAddress1,BofBAddress2,BofBCity,BofBState,BofBPostcode,BofBEmail,BofBTicketQty,BofBTicketTotal,BofBPayId from BofB_Purchasers where BofBId=@0";
+                         var qry = db.QuerySingle(selectQuery, custom);
+                         string otitle = qry.BofBSalutation;
+                         string ofirstname = qry.BofBFirstName;
+                         string osurname = qry.BofBSurname;
+                         string oaddress1 = qry.BofBAddress1;
+                         string oaddress2 =  qry.BofBAddress2;
+                         string otown = qry.BofBCity;
+                         string ocounty = qry.BofBState;
+                         string opostcode = qry.BofBPostcode;
+                         string oemail = qry.BofBEmail; 
+                         var oqty = qry.BofBTicketQty;
+                         var otot =  qry.BofBTicketTotal;
+                         var otxtid = qry.BofBPayId;
+
+
+                         if( otxtid == null || otxtid.Equals(txn_id) == false){
+                             
+
+                              
+                               try {  
+                                         
+                                var updateQuery = "UPDATE BofB_Purchasers set BofBPayId=@1, BofBTicketQty=@2, BofBTicketTotal=@3, IpnId=@4, IpnData=@5 where BofBId=@0";
+                                db.Execute(updateQuery, custom, txn_id, quantity, payment_amount, pay_stat , user_email );
+
+                                  var body = "Dear " +  ofirstname + ",<br/><br/>";
+
+                                 if( quantity.Equals("1") )
+                                 {
+                                                 body += "<br/>Thank you, we have received your ticket order for the Battle of Britain Reception on 14 September 2013<br/><br/>";
+                                 }
+                                 else
+                                 { 
+                                                  body += "<br/>Thank you, we have received your order for " + quantity + " tickets for the Battle of Britain Reception on 14 September 2013<br/><br/>";
+                                 }
+                                 body += "Your payment of £" + payment_amount +" has been received. <br/><br/>";
+                                 body += "We shall send you the tickets by post shortly to the following address:<br/><br/>";
+                                 body += " " +  otitle + " " + ofirstname + " " + osurname + "<br/>";
+                                 body += " " +  oaddress1 + "<br/>";
+                                 if( oaddress2.Length > 0 ){
+                                         body += " " +  oaddress2 + "<br/>";
+                                 }
+                                 body += " " + otown + "<br/>";
+                                 body += " " + ocounty + "<br/>";
+                                 body += " " + opostcode + "<br/><br/>";
+
+                                 body += "If you haven't received the tickets through the post before the event, then please present a printed copy of this email on the gate. ";
+                                 body += "Your ticket order reference is: " + custom  + "<br/><br/>";
+                                 body += "Dress is:  Mess kit, interim mess kit, dinner or dark lounge suit with decorations and equivalent for ladies. <br/><br/>";
+                                 body += "We look forward to seeing you at the Battle of Britian Reception.<br/><br/>";
+                                 body += "With regards<br/>Chair of Battle of Britian Reception Commitee<br/>For and onbehalf of the Officer Commanding 2427 (Biggin Hill) Sqn ATC.";
+
+
+                                //SMTP Configuration for Hotmail
+                                WebMail.SmtpServer = "smtp.live.com";
+                                WebMail.SmtpPort = 587;
+                                WebMail.EnableSsl = true;
+                                WebMail.UserName = "bigginaircadets@outlook.com";
+                                WebMail.Password = "c0sby3538";
+                                WebMail.From = "bigginaircadets@outlook.com";
+                                
+                                        WebMail.Send(
+                                                    to: user_email,
+                                                    cc: "2427squadron@googlemail.com",                   
+                                                    subject: "Battle of Britain Reception Ticket Order",
+                                                    body: body);
+                                        sentEmail = true;      
+                                 } 
+                                 catch(Exception exception) {
+                                        emailException = exception.Message;
+                                        sentEmail = false;
+                                 }
+                                    
+                                 
+                            } //unique transaction
+                        
+                        } //receive
+
+
+            }
+
+    }
+    var insertQuery = "INSERT INTO ipn (ipnstatus,ipntxtid,ipnpaymentstatus,ipnreceiveremail,ipnamount,ipncurrency, strReceived, bofbid,completeemailsent,completeemailfault ) VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9)";
+    db.Execute(insertQuery, strResponse,txn_id,pay_stat,receiver_email,payment_amount,payment_currency,strResponse_copy, custom, sentEmail, emailException );
+    
+}
+
+
+

@@ -1,0 +1,57 @@
+﻿@{
+    byte[] decBytes = System.Convert.FromBase64String(Request.QueryString["ref"]);
+    string fullstring = System.Text.Encoding.Unicode.GetString(decBytes);
+    string[]  decString = System.Text.Encoding.Unicode.GetString(decBytes).Split(';');
+    
+}
+
+<script type="text/javascript" >
+    $(function () { $('nav ul').replaceWith('<ul><li><a href="" class="current">Order Confirmation</a></li></ul>'); }
+    
+    );
+</script>
+<div class="orderconfirmation">
+<h4>Battle of Britain Ticket Order Confirmation</h4>
+<div>
+<p>@decString[1]  @decString[3] @decString[2]</p>
+
+<p>@decString[5]</p>
+<p>@decString[6]</p> 
+<p>@decString[7]</p> 
+<p>@decString[8]</p>
+<p>@decString[9]</p>
+</div>
+     
+<p>Email address: @decString[10]</p>
+
+<p>Quantity @decString[11] tickets @@ &pound; 32.00 each  = <b>Total  &pound; @decString[12]</b></p> 
+</div>
+<div></div>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_s-xclick" >
+    <input type="hidden" name="hosted_button_id" value="Z63K4PAS8ADSS" >
+    <input type="hidden" id="frm_quantity" name="quantity" value="@decString[11]">
+    <input type="hidden" id="frm_first_name" name="first_name" value="@decString[3]" >
+    <input type="hidden" id="frm_last_name" name="last_name" value="@decString[2]">
+    <input type="hidden" id="frm_address1" name="address1" value="@decString[5]">
+    <input type="hidden" id="frm_address2" name="address2" value="@decString[6]">
+    <input type="hidden" id="frm_city" name="city" value="@decString[7]">
+    <input type="hidden" id="frm_state" name="state" value="@decString[8]">
+    <input type="hidden" id="frm_zip" name="zip" value="@decString[9]">
+    <input type="hidden" id="frm_email" name="email" value="@decString[10]">
+    <input type="hidden" id="frm_custom" name="custom" value="@decString[0]">
+    <input type="hidden" id="frm_ipn" name="notify_url" value="http://bob2013.azurewebsites.net/ipn2" >
+
+
+
+
+
+
+
+    <div>
+    <!-- <input type="button" value="Cancel" id="frm_cancel" style="padding-right: 20px;"/>-->
+    <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online." data-mini="true"/>
+    </div>
+</form>
+
+ 

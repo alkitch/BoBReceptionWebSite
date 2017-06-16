@@ -1,0 +1,63 @@
+﻿@{
+    var db = Database.Open("Personal Site"); 
+    var selectedData = db.Query("SELECT * FROM  BofB_Purchasers where BofBPayId is not null ");
+    var grid = new WebGrid(source: selectedData, rowsPerPage: 15);
+}
+<script type="text/javascript" >
+    $(function () {
+
+        $('nav ul').replaceWith('<ul><li><a href="" class="current">Order Monitor</a></li></ul>');
+        $('#entrygo').click( function () {
+            $.getJSON('/checkname/' + $('#entryword').val(), function (data) {
+                if (data.pwd == "OK")
+                    $('#entry, #monitor').toggle();
+            });
+        });
+
+    });
+</script>
+<style type="text/css">
+  .grid { margin: 4px; border-collapse: collapse; width: 600px; }
+  .grid th, .grid td { border: 1px solid #C0C0C0; padding: 5px; }
+  .head { background-color: #E8E8E8; font-weight: bold; color: #FFF; }
+  .alt { background-color: #E8E8E8; color: #000; }
+  #monitor { display: none;}
+</style> 
+<div id="entry">
+    <form>
+       <fieldset class="no-legend">
+        <legend>Order Monitor</legend>
+        <label for="entryword">Entry Code:</label><input type="text" id="entryword">
+        <input type="button" id="entrygo" value="Enter">
+       </fieldset>
+    </form>
+</div>
+<div id="monitor">
+ @grid.GetHtml(
+    tableStyle: "grid",
+    headerStyle: "head",
+    alternatingRowStyle: "alt",
+        columns: grid.Columns( 
+            grid.Column("BofBId", "Ref"),
+            grid.Column("BofBSalutation","Rank"),
+            grid.Column("BofBFirstName","Firstname"),
+            grid.Column("BofBSurname","Surname"),
+
+            grid.Column("BofBAddress1","Address"),
+            grid.Column("BofBAddress2","Address+"),
+
+            grid.Column("BofBCity","Town"),
+            grid.Column("BofBState","County"),
+
+            grid.Column("BofBPostcode","Post code"),
+            grid.Column("BofBEmail","Email"),
+
+            grid.Column("BofBTicketQty","Tickets"),
+            grid.Column("BofBTicketTotal","Paid"),
+
+            grid.Column("BofBPayId","PayPal Ref")
+            )
+    )
+
+   
+</div>

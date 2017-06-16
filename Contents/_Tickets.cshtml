@@ -1,0 +1,175 @@
+﻿
+
+@{
+
+    string screenName = "";
+    var orderunitprice = 33.80;
+   
+     // Setup validation
+    Validation.RequireField("orderpersonFirstNames", "You must specify your first name or initials.");
+    Validation.RequireField("orderpersonSurnames", "You must specify your surname");
+    Validation.RequireField("orderAddress","You must specify the address where the tickets are to be sent");
+    Validation.RequireField("orderTown","You must specify the address where the tickets are to be sent");
+    Validation.RequireField("orderPostcode","You must specify the post code of the address where the tickets are to be sent.");
+    Validation.RequireField("orderEmail", "You must specify an email address for where the confirmation email will be sent.");
+    
+
+    if (IsPost && Validation.IsValid()) {
+        
+
+        var otitle = Request["orderpersonTitle"];
+        var ofirstname = Request["orderpersonFirstNames"];
+        var osurname = Request["orderpersonSurnames"];
+        var oaddress1 = Request["orderAddress"];
+        var oaddress2 = Request["orderAddress2"];
+        var otown = Request["orderTown"];
+        var ocounty = Request["orderCounty"];
+        var opostcode = Request["orderPostcode"];
+        var oemail = Request["orderEmail"]; 
+        var oqty = Request["orderQty"];
+        var otot = double.Parse(oqty) * orderunitprice;
+        var db = Database.Open("Personal Site");
+        if(ModelState.IsValid) {
+
+            //var lastInsertID = db.QueryValue("INSERT" + name into Names; SELECT SCOPE_IDENTITY()");
+
+            var insertQuery = "INSERT INTO BofB_Purchasers (BofBSurname,BofBFirstName,BofBSalutation,BofBAddress1,BofBAddress2,BofBCity,BofBState,BofBPostcode,BofBEmail,BofBTicketQty,BofBTicketTotal) " +
+                "VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10)";
+            db.Execute(insertQuery, osurname,ofirstname,otitle,oaddress1,oaddress2,otown,ocounty,opostcode,oemail,oqty,otot);
+            var t = db.GetLastInsertId();
+
+            byte[] encbytes =  System.Text.Encoding.Unicode.GetBytes( t.ToString() + ";" + otitle + ";" + osurname+ ";" +ofirstname+ ";" +otitle+ ";" +oaddress1+ ";" + oaddress2+ ";" +  otown+ ";" +ocounty+ ";" +opostcode+ ";" +oemail+ ";" +oqty + ";" + otot);
+            Response.Redirect("~/ConfirmOrder?ref=" + System.Convert.ToBase64String(encbytes) );
+        }
+        else
+        {
+            
+            ModelState.AddFormError("There was an error and your order could not be processed at this time");
+        }
+     }
+}
+
+
+<div class="infopanel" style="display: none" >
+<p>You may either buy tickets online by completing the section below, or apply by post by downloading the <a style="text-decoration: underline;" href="~/Contents/BoB16TicketOrderForm.pdf">ticket order form</a>
+</div>
+
+<div class="salesclosed" data-controltype="textblock" >
+    <div class="infopanel">
+        <!--<p>Online Tickets Sales for the 2015 Reception is presenlty closed.</p>-->
+        <p>Postal <a style="text-decoration: underline;" href="~/Contents/BoB16TicketOrderForm.pdf">ticket application forms</a> can be downloaded from <a style="text-decoration: underline;" href="~/Contents/BoB15TicketOrderForm.pdf">here</a>.</p>
+        <p>Please be prompt, tickets are limited due space constraints.</p>
+        <p>Thank you</p>
+    </div>
+</div>
+
+<div id="stylized" class="purchaseform">
+
+<form action="" method="post" style="display: none">
+    @Html.ValidationSummary(excludeFieldErrors: true)
+
+    <fieldset class="no-legend">
+        <legend>Battle of Britian Reception Ticket Order</legend>
+ 
+        <ul class="orderPageList" data-role="listview">
+            <li class="persontitle">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderpersonTitle">Title <sub>(Rank/Mr/Mrs)</sub></label>
+                    <input type="text" id="orderpersonTitle" name="orderpersonTitle" />                
+                </div>
+            </li>
+            <li class="firstnames">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderpersonFirstNames">Firstname(s)</label>
+                    <input type="text" id="orderpersonFirstNames" name="orderpersonFirstNames" @Validation.For("orderpersonFirstNames")/>                
+                    <div>@Html.ValidationMessage("orderpersonFirstNames")</div>
+                </div>
+            </li>
+            <li class="surname">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderpersonSurnames">Surname</label>
+                    <input type="text" id="orderpersonSurnames" name="orderpersonSurnames" @Validation.For("orderpersonSurnames")/>                
+                    <div>@Html.ValidationMessage("orderpersonSurnames")</div>
+                </div>
+            </li>
+            <li class="shipping">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderAddress">Address</label>
+                    <input type="text" id="orderAddress" name="orderAddress" @Validation.For("orderAddress") />               
+                    <div>@Html.ValidationMessage("orderAddress")</div>
+                </div>
+            </li> 
+            <li class="shipping">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderAddress2">Address</label>
+                    <input type="text" id="orderAddress2" name="orderAddress2" />               
+                </div>
+            </li> 
+            <li class="shipping">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderTown">Town</label>
+                    <input type="text" id="orderTown" name="orderTown"  @Validation.For("orderTown")/>
+                    <div>@Html.ValidationMessage("orderTown")</div>               
+                </div>
+            </li> 
+            <li class="shipping">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderCounty">County</label>
+                    <input type="text" id="orderCounty" name="orderCounty"  @Validation.For("orderCounty")/>   
+                    <div>@Html.ValidationMessage("orderCounty")</div>            
+                </div>
+            </li>
+            <li class="shipping">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderPostcode">Post code</label>
+                    <input type="text" id="orderPostcode" name="orderPostcode"  @Validation.For("orderPostcode")/>   
+                    <div>@Html.ValidationMessage("orderPostcode")</div>            
+                </div>
+            </li>  
+            <li class="email">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderEmail">Email Address</label>
+                    <input type="email" id="orderEmail" name="orderEmail" @Validation.For("orderEmail")/>                
+                    <div>@Html.ValidationMessage("orderEmail")</div>
+                </div>
+            </li>
+
+            <li class="quantity">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderQty">Ticket Quantity</label>
+                    <input type="text" id="orderQty" name="orderQty" value="1"/>
+                    <div class="computetotal">&nbsp;x
+                    <span id="orderPrice">&pound; @string.Format("{0:f}", orderunitprice)</span>
+                    =
+                    <span id="orderTotal">&pound; @string.Format("{0:f}", orderunitprice)</span></div>
+                </div>
+
+        <li class="purchase">
+            <div class="fieldcontainer" data-role="fieldcontain">
+            <label for="placeorder"></label>
+            <input id="placeorder" type="submit" value="Place Order" data-role="submit" data-inline="true"/>
+            </div>
+            </li>
+        </ul>
+    </fieldset>
+</form>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var price = @orderunitprice;
+            total = $("#orderTotal");
+            orderQty = $("#orderQty");
+
+       $("#orderQty").change(function () {
+            var quantity = parseInt(orderQty.val());
+            if (!quantity || quantity < 1) {
+                orderQty.val(1);
+                quantity = 1;
+            } else if (quantity.toString() !== orderQty.val()) {
+                orderQty.val(quantity);
+            }
+            total.text("£ " + (price * quantity).toFixed(2)   );
+        });
+    });
+</script>

@@ -1,0 +1,643 @@
+﻿/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+    blockquote:before, blockquote:after, q:before, q:after {
+        content: '';
+        content: none;
+    }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Clearing Floats */
+
+.group:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/* Main Styles */
+
+body {
+    font-size: 13px;
+    font-family: 'Tahoma', 'Helvetica', 'Arial', sans-serif;
+    color: #323232;
+    background: #C8D7DC url(../images/background.png) no-repeat right top;
+    margin-top: 45px;
+    min-width:1049px;
+}
+
+a {
+    background-color: transparent;
+    text-decoration: none;
+    color:  #323232;
+}
+
+    a:hover {
+        background-color: #323232;
+        color: white;
+    }
+
+#page {
+    width: 1024px;
+    
+    margin: 0 auto;
+}
+
+header {
+    font-family: 'Segoe UI', sans-serif;
+    float: left;
+    width: 350px;
+    margin-right: 60px;
+    
+}
+
+    header p {
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 20px;
+    }
+
+nav {
+    margin-top: 30px;
+    padding: 5px;
+    border-top: 1px solid #999;
+    border-bottom:  1px solid #999;
+}
+
+nav li {
+    padding: 10px;
+    display: inline;
+    width: 5em;
+}
+
+    nav a {
+        background: transparent;
+        text-decoration: none;
+        color: #323232;
+        font-size: 18px;
+        padding: 10px 15px 8px 15px;
+        display: inline-block;
+        text-transform: uppercase;
+        border-top: 2px solid transparent;
+        outline: none;
+    }
+
+        nav a:hover {
+            background-color: #323232;
+            color: white;
+            border-top: 2px solid white;
+        }
+
+        nav a.current {
+            background-color: #323232;
+            color: white;
+            border-top: 2px solid  white;
+            
+        }
+
+section {
+    /*
+    width: 450px;*/
+    background-color: transparent;
+    display: inline; 
+    float: left;
+    /*padding: 1px 1px 1px 1px;*/
+
+}
+
+    section p {
+        margin-bottom: 12px;
+        line-height: 150%;
+    }
+
+.pagebody{
+    clear: both;
+    margin-top: 2em;
+}
+
+h1 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.title {
+    font-size: 3.4em;
+    line-height: 1em;
+    margin-bottom: 17px;
+    font-weight: normal;
+}
+
+.titlered {
+    color: #FF6C69;
+}
+.titlewhite {
+    color: #EEEEEE;
+}
+.titleblue {
+    color:  #6C9CFF;
+}
+    
+
+.subtitle
+{
+    font-size: 1.2em;
+    line-height: 1em;
+    margin-bottom: 5px; 
+}
+
+/* Blog and Twitter Styles */
+article.newsitem {
+    background: url(../images/rss.png) no-repeat left top;
+}
+
+    article.newsitem .newsbody, article.twitteritem .twitterbody {
+        margin-left: 17px;
+        padding: 0px 9px 10px;
+    }
+
+        article.newsitem .newsbody header, article.twitteritem .twitterbody header {
+            float: none;
+            font-family: 'Tahoma', 'Helvetica', 'Arial', sans-serif;
+            width: 100%;
+            margin-right: 0;
+        }
+
+            article.newsitem .newsbody header h1, article.twitteritem .twitterbody header h1 {
+                font-size: 1.2em;
+                font-weight: bold;
+                margin-bottom: 2px;
+            }
+
+            article.newsitem .newsbody header h2 {
+                font-size: 1.1em;
+                margin-bottom: 5px;
+            }
+
+        article.newsitem .newsbody p, article.twitteritem .twitterbody p {
+            font-size: 1.0em;
+            line-height: 1.0em;
+            margin-bottom: 8px;
+        }
+
+        article.newsitem .newsbody .pubdate {
+            margin-top: 3px;
+        }
+
+/* Twitter Styles */
+article.twitteritem {
+    background: url("http://twitter.com/favicon.ico") no-repeat left top;
+}
+
+    article.twitteritem .twitterbody header h1 {
+        margin-bottom: 5px;
+    }
+
+    article.twitteritem .twitterbody .pubdate {
+        margin: -3px 0 5px 0;
+    }
+
+ul.twitteractions li {
+    display: inline;
+    list-style: none;
+}
+
+    ul.twitteractions li a {
+        background: none;
+        color: #999;
+        height: 20px;
+        padding: 0 7px 0 7px;
+        text-decoration: none;
+        text-indent: -9999px;
+        width: 20px;
+    }
+
+
+/* Photos Styles */
+ul.thumbnails {
+    margin: 0;
+    padding: 0;
+}
+
+    ul.thumbnails li {
+        position: relative;
+        list-style: none;
+        float: left;
+        margin: 8px;
+        padding: 5px;
+        font-size: small;
+        text-align: center;
+        border: 1px solid transparent;
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        display: block;
+    }
+
+        ul.thumbnails li span {
+            display: block;
+        }
+
+            ul.thumbnails li span.image-overlay {
+                display: none;
+                width: 100px;
+                padding: 5px;
+                background-color: #b6ebe3;
+                color: #343434;
+                font-size: 0.8em;
+                /*CSS3 properties*/
+                border-radius: 7px 7px 0 0;
+                -moz-border-radius: 7px 7px 0 0;
+                -webkit-border-radius: 7px 7px 0 0;
+                word-wrap: break-word;
+            }
+
+            ul.thumbnails li span.below-image {
+                line-height: normal;
+            }
+
+        ul.thumbnails li img {
+            margin: auto;
+            display: inline;
+            vertical-align: middle;
+        }
+
+        ul.thumbnails li:hover {
+            background: #f3f6f7;
+            border-color: #dbe2e5;
+            /*CSS3 properties*/
+            border-radius: 7px;
+            -moz-border-radius: 7px;
+            -webkit-border-radius: 7px;
+            box-shadow: 0px 0px 10px #d0d0d0;
+            -moz-box-shadow: 0px 0px 10px #d0d0d0;
+            -webkit-box-shadow: 0px 0px 10px #d0d0d0;
+        }
+
+            ul.thumbnails li:hover span.image-overlay {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                line-height: normal;
+            }
+
+.thumbnail-border {
+    border: 1px solid #dbe2e5;
+    display: block;
+}
+
+.hide-from-desktop
+{
+    display: none;
+}
+
+.sqnbadge 
+{
+    width: 204px;
+    padding-top: 60px;
+    margin-right:  80px;
+    float: left;
+}
+
+.infopanelcontainer
+{
+    display:  inline-block;
+    float: left;
+}
+
+.quotation
+{
+    clear: both;
+}
+
+.infopanel
+{
+    font-size: 1.2em;
+    line-height: 2em;
+    margin-bottom: 2em;
+    margin-left: 3em;
+}
+
+#infohost
+{
+    font-size: 0.9em;
+    line-height: 2em;
+    margin-left: -320px;
+    margin-bottom: 1em;
+}
+
+blockquote
+{
+    font-style: italic;
+}
+
+.quotation p
+{
+    line-height: 1.5em;
+}
+
+
+
+
+/* Order   
+----------------------------------------------------------*/
+.quantity label {
+    display: inline;
+}
+
+.quantity input[type=text] {
+    width: 30px;
+}
+
+#orderTotal {
+    font-weight: bold;
+}
+
+.order-image {
+    float: left;
+    margin: 10px 30px 10px 0px;
+}
+
+.order-success {
+    background: #edece8;
+    color: #696969;
+}
+
+    .order-success h2 {
+        margin: 0;
+    }
+    
+
+#orderProcess {
+    list-style: none;
+    padding: 0;
+    clear: both;
+}
+
+    #orderProcess li {
+        color: #696969;
+        display: inline;
+        font-size: 1.2em;
+        margin-right: 15px;
+        padding: 3px 0px 0px 5px;
+    }
+    
+        .step-number {
+            background-color: #edece8;
+            border: 1px solid #e6e4d9;
+            font-size: 1.5em;
+            margin-right: 5px;
+            padding: 3px 10px;
+        }
+    
+        .current .step-number {
+            background-color: #a52f09;
+            border-color: #712107;
+            color: #fefefe;
+        }
+
+
+/* Information and errors  
+----------------------------------------------------------*/  
+.message {
+    border: 1px solid;
+    clear: both;
+    margin: 10px 0px;
+    padding: 15px 15px;
+    
+    /*CSS3 properties*/
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 2px 2px 5px #888;
+    -webkit-box-shadow: 2px 2px 5px #888;
+    -moz-box-shadow: 2px 2px 5px #888;
+}
+
+.info {
+    background: #bde5f8;
+    color: #00529b;
+}
+
+.error {
+    background: #ffccba;
+    color: #d63301;
+}
+        
+.field-validation-error {
+    color: #be3e16;
+    font-weight: bold;
+}
+
+    .field-validation-error:before {
+        content: "«";
+        margin:0 3px;
+    }
+    
+.validation-summary-errors {
+    color: #be3e16;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.validation-summary-errors ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+#stylized{
+border:solid 2px #b7ddf2;
+background:#ebf4fb;
+}
+#stylized h1 {
+font-size:14px;
+font-weight:bold;
+margin-bottom:8px;
+}
+#stylized p{
+font-size:11px;
+color:#666666;
+margin-bottom:20px;
+border-bottom:solid 1px #b7ddf2;
+padding-bottom:10px;
+}
+#stylized label{
+display:block;
+font-weight:bold;
+text-align:right;
+width:140px;
+float:left;
+margin-top: 5px;
+}
+#stylized .small{
+color:#666666;
+display:block;
+font-size:11px;
+font-weight:normal;
+text-align:right;
+width:140px;
+}
+#stylized input{
+float:left;
+font-size:12px;
+padding:4px 2px;
+border:solid 1px #aacfe4;
+width:200px;
+margin:2px 0 10px 10px;
+}
+#stylized button{
+clear:both;
+margin-left:150px;
+width:125px;
+height:31px;
+background:#666666 url(img/button.png) no-repeat;
+text-align:center;
+line-height:31px;
+color:#FFFFFF;
+font-size:11px;
+font-weight:bold;
+}
+
+
+#stylized li {
+    display: block;
+    clear: both;
+}
+
+/* Forms   
+----------------------------------------------------------*/
+fieldset {
+    border: 1px solid #CCC;
+    margin: 0.5em 0;
+    padding: 1em;
+}
+
+    fieldset legend {
+        font-size: 1.1em;
+        font-weight: normal;
+        padding: 2px 4px 8px 4px;
+    }
+
+    fieldset label {
+        display: inline;
+        margin-bottom: 0px;
+        min-width: 400px;
+    }
+
+    fieldset label:after {
+            content: " ";
+        }
+
+    fieldset label.checkbox {
+        display: inline;
+    }
+
+    fieldset input[type="text"], input[type="password"] {
+        border: 1px solid #ccc;
+        color: #444;
+        font-size: 1.2em;
+        padding: 2px;
+        width: 12em;
+    }
+
+    fieldset input[type="submit"] {
+        padding: 5px;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+    }
+
+.no-legend {
+    padding: 10px;
+    margin: 10px;
+}
+
+.computetotal {
+    padding-top: 8px;
+}
+
+.orderconfirmation 
+{
+    padding: 10px;
+}
+
+.orderconfirmation p
+{
+    font-size: 1em;
+    padding: 10px;
+}
+
+#galleria 
+{
+    height: 340px;
+}
+
+.contrib
+{
+    
+}
+
+.contrib div
+{
+    display: inline;
+    float: left;
+    width: 45%;
+    padding: 0.7em;
+    
+}
+
+.contrib div p
+{
+   font-family:Arial, Helvetica, sans-serif; 
+   font-size: 1.1em;
+   padding-bottom: 1em;
+   text-align: justify;
+}
+
+.contrib div:nth-child(2)
+{
+    padding-top: 5em;
+}

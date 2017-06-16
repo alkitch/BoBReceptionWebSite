@@ -1,0 +1,17 @@
+﻿<script src="~/scripts/galleria-1.3.6.min.js"></script>
+<script src="~/scripts/galleria.flickr.min.js"></script>
+<script type="text/javascript" >
+        // Load the classic theme
+    Galleria.loadTheme('~/../../scripts/themes/classic/galleria.classic.min.js');
+
+    // Initialize Galleria
+    Galleria.run('#galleria', {
+            flickr: 'set:72157634608174001',
+            flickrOptions: {
+                sort: 'date-posted-asc'
+            }
+    });
+</script>
+<div id="galleria" style="height:400px;">
+        <img src="~/images/spitfire.png" />
+</div>

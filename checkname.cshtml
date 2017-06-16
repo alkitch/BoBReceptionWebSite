@@ -1,0 +1,11 @@
+﻿@{
+  Layout = "";
+  Response.Cache.SetCacheability(HttpCacheability.NoCache);
+    if( UrlData[0].Equals("Willersley")){
+        Json.Write(new {pwd = "OK"}, Response.Output);
+    }
+    else {
+        Json.Write(new {pwd = "FAIL"}, Response.Output);
+    }      
+}
+
